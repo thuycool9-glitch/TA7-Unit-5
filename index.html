@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FOOD & COOKING CHALLENGE – Grade 7</title>
+<style>
+:root{--o:#ff7a2f;--y:#ffd23f;--g:#2bb673;--r:#e5484d;--b:#2f5d8a;--ink:#3a2a1a;--card:#fffaf0}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:"Segoe UI",system-ui,Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#ffe8b8,#ffc9a0 60%,#ffb3a7);font-size:clamp(16px,1.6vw,22px)}
+.screen{display:none;max-width:1000px;margin:0 auto;padding:16px}
+.screen.on{display:block}
+.card{background:var(--card);border-radius:22px;padding:20px;box-shadow:0 8px 0 rgba(120,60,20,.15);border:3px solid #fff}
+h1{font-size:clamp(30px,6vw,60px);margin:6px 0;color:var(--o);text-shadow:3px 3px 0 #fff;letter-spacing:1px}
+.sub{font-size:1.3em;font-weight:700;color:var(--b)}
+.hero{text-align:center;font-size:clamp(34px,7vw,68px);letter-spacing:8px;animation:bob 2.5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:10px 18px;font-weight:800;background:var(--b);color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.2);transition:transform .1s}
+button:hover{transform:translateY(-2px)}button:active{transform:translateY(2px)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.big{font-size:1.5em;padding:14px 34px;background:var(--g)}
+.warn{background:var(--o)}.ghost{background:#8a6d4b}
+.center{text-align:center}.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin:10px 0}
+select{font:inherit;padding:8px;border-radius:10px;border:2px solid var(--b)}
+ol.how{text-align:left;line-height:1.6;margin:8px auto;max-width:720px}
+.top{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.pill{background:#fff;border-radius:999px;padding:6px 14px;font-weight:800;border:2px solid var(--y)}
+.bar{height:16px;background:#fff;border-radius:99px;overflow:hidden;margin:10px 0;border:2px solid #fff}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--y),var(--o));transition:width .4s}
+.rtag{font-weight:800;color:var(--o)}
+.q{font-size:1.45em;font-weight:800;margin:8px 0;text-align:center;line-height:1.35;white-space:pre-line}
+.img{font-size:clamp(70px,14vw,140px);text-align:center;line-height:1.1}
+.passage{background:#fff3c4;border-left:6px solid var(--o);padding:10px 14px;border-radius:10px;margin:8px 0;font-style:italic}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+@media(max-width:640px){.opts{grid-template-columns:1fr}}
+.opt{background:#fff;color:var(--ink);border:3px solid var(--b);text-align:left;font-size:1.05em;padding:14px;border-radius:16px;box-shadow:0 4px 0 rgba(47,93,138,.3)}
+.opt b{display:inline-block;width:1.8em;height:1.8em;line-height:1.8em;text-align:center;border-radius:50%;background:var(--b);color:#fff;margin-right:8px}
+.opt.ok{background:#d6f5e3;border-color:var(--g);animation:pop .4s}.opt.ok b{background:var(--g)}
+.opt.bad{background:#ffe0e0;border-color:var(--r);animation:shake .4s}.opt.bad b{background:var(--r)}
+@keyframes pop{50%{transform:scale(1.04)}}@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.fb{margin-top:12px;padding:12px;border-radius:14px;font-weight:600;display:none}
+.fb.ok{display:block;background:#d6f5e3}.fb.bad{display:block;background:#ffe0e0}
+.slide{animation:slide .35s}@keyframes slide{from{opacity:0;transform:translateX(30px)}}
+.bank,.ans{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px;padding:8px;border-radius:14px}
+.ans{background:#fff;border:3px dashed var(--o);margin:8px 0}
+.w{background:var(--y);color:var(--ink);font-size:1.1em}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.stat div{background:#fff;border-radius:14px;padding:10px;text-align:center;font-weight:800}
+.stat span{display:block;font-size:1.8em;color:var(--o)}
+.rank{font-size:clamp(26px,5vw,46px);font-weight:900;color:var(--o);text-align:center}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
+td,th{padding:8px;border-bottom:1px solid #eee;text-align:left}th{background:var(--y)}
+.rv{background:#fff;border-radius:14px;padding:12px;margin:10px 0;border-left:6px solid var(--r)}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.vc{background:#fff;border-radius:14px;padding:10px;border-top:5px solid var(--o)}
+.fall{position:fixed;top:-50px;font-size:30px;animation:fall linear forwards;pointer-events:none;z-index:9}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+@media print{body{background:#fff}.screen{display:none!important}#result{display:block!important}button,.row{display:none!important}.fall{display:none}}
+</style>
+</head>
+<body>
+
+<section id="home" class="screen on"><div class="card center">
+<div class="hero">🍳🥞🍜🥧</div>
+<h1>FOOD & COOKING CHALLENGE</h1>
+<div class="sub">Grade 7 English Vocabulary</div>
+<div class="row">
+<button id="sndBtn" class="ghost" onclick="toggleSound()">🔊 Âm thanh: BẬT</button>
+<label class="pill">⏱ Đồng hồ: <select id="timerSel"><option value="0">Tắt</option><option value="15">15 giây</option><option value="20" selected>20 giây</option><option value="30">30 giây</option><option value="45">45 giây</option><option value="60">60 giây</option></select></label>
+<button class="ghost" onclick="toggleFS()">⛶ Toàn màn hình</button>
+</div>
+<button class="big" id="startBtn" onclick="startGame()">START GAME</button>
+<div id="errBox" style="color:var(--r);font-weight:700"></div>
+<h3>Cách chơi</h3>
+<ol class="how">
+<li>Trò chơi có <b>5 vòng, mỗi vòng 20 câu</b>, tổng cộng 100 câu.</li>
+<li>Chọn một đáp án (hoặc sắp xếp từ thành câu ở vòng 5). Chỉ được trả lời <b>một lần</b> mỗi câu.</li>
+<li>Đúng được <b>+10 điểm</b>, sai không bị trừ điểm. Tối đa 1.000 điểm.</li>
+<li>Sau mỗi câu có phản hồi và giải thích; bấm <b>NEXT QUESTION</b> để tiếp tục.</li>
+<li>Giáo viên có thể tắt/bật âm thanh và chọn thời gian mỗi câu (hoặc tắt đồng hồ) ở trên.</li>
+</ol></div></section>
+
+<section id="game" class="screen"><div class="card">
+<div class="top"><span class="rtag" id="rtag"></span>
+<span><span class="pill" id="tm" style="display:none">⏱ 0</span>
+<button class="ghost" onclick="toggleSound()" id="sndBtn2">🔊</button>
+<button class="warn" onclick="if(confirm('Chơi lại từ đầu?'))startGame()">↻</button></span></div>
+<div class="top" style="margin-top:8px"><span class="pill">⭐ <span id="sc">0</span></span><span class="pill">✅ Đúng: <span id="okn">0</span></span><span class="pill">📋 Còn lại: <span id="left">100</span></span></div>
+<div class="bar"><i id="pb"></i></div>
+<div id="qbox" class="slide"></div>
+<div id="fb" class="fb"></div>
+<div class="row"><button id="nextBtn" class="big" style="display:none" onclick="next()">NEXT QUESTION ➜</button></div>
+</div></section>
+
+<section id="result" class="screen"><div class="card">
+<div class="center" style="font-size:3em">🏆</div>
+<div class="rank" id="rank"></div><div class="center" id="rmsg" style="font-weight:700"></div>
+<div class="stat" id="stats"></div>
+<table id="rounds"></table>
+<div class="row">
+<button class="big" onclick="startGame()">PLAY AGAIN</button>
+<button class="warn" onclick="showMistakes()">REVIEW MISTAKES</button>
+<button onclick="showVocab()">REVIEW VOCABULARY</button>
+<button class="ghost" onclick="window.print()">PRINT RESULTS</button>
+<button class="ghost" onclick="show('home')">BACK TO HOME</button></div>
+</div></section>
+
+<section id="review" class="screen"><div class="card">
+<h2 id="rvTitle" class="center"></h2><div id="rvBody"></div>
+<div class="row"><button onclick="show(G.done?'result':'home')">⬅ Quay lại</button></div></div></section>
+
+<script>
+//DATA-START
+const VOC=`beef|thịt bò|n|We cook beef with onions.
+butter|bơ|n|I spread butter on my bread.
+dish|món ăn|n|Pho is a famous Vietnamese dish.
+eel|con lươn|n|An eel is a long fish like a snake.
+flour|bột mì|n|We need flour to make a cake.
+fried|chiên, rán|adj|Fried chicken is my favourite food.
+green tea|trà xanh|n|My grandfather drinks green tea every morning.
+ingredient|nguyên liệu|n|Eggs are an important ingredient in an omelette.
+juice|nước ép (trái cây)|n|I drink orange juice for breakfast.
+lemonade|nước chanh|n|Lemonade is sour and sweet.
+mineral water|nước khoáng|n|She buys a bottle of mineral water.
+noodles|mì, bún, phở (sợi)|n|We eat noodles with chopsticks.
+omelette|trứng chiên (ốp-lết)|n|She is making an omelette.
+onion|hành tây|n|Onions can make you cry.
+pancake|bánh kếp|n|Pancakes are made from flour, eggs and milk.
+pepper|hạt tiêu, tiêu|n|Add some pepper to make the soup spicy.
+pie|bánh nướng (có nhân)|n|Grandma bakes an apple pie.
+pork|thịt heo|n|We have pork and rice for lunch.
+recipe|công thức nấu ăn|n|Follow the recipe step by step.
+roast|quay, nướng (trong lò)|adj|We have roast chicken on Sundays.
+salt|muối|n|Add a little salt to the soup.
+sauce|nước sốt, nước chấm|n|I put tomato sauce on my noodles.
+shrimp|tôm|n|Shrimp is a kind of seafood.
+soup|súp, canh|n|We eat hot soup with a spoon.
+spring roll|chả giò, nem cuốn|n|Spring rolls are fried in hot oil.
+tablespoon|thìa canh (thìa lớn)|n|Add one tablespoon of oil.
+teaspoon|thìa cà phê (thìa nhỏ)|n|I put a teaspoon of sugar in my tea.`.split('\n').map(l=>{const[a,b,c,d]=l.split('|');return{en:a,vi:b,t:c,ex:d}});
+const VI={};VOC.forEach(v=>VI[v.en]=v.vi);
+const CATS={meat:'beef,pork,eel,shrimp',drink:'juice,lemonade,mineral water,green tea',food:'salt,pepper,sauce,butter,flour,onion',dish:'noodles,omelette,pancake,pie,soup,spring roll,dish',cook:'fried,roast,recipe,ingredient,tablespoon,teaspoon'};
+const CAT={};for(const k in CATS)CATS[k].split(',').forEach(w=>CAT[w]=k);
+const CONF=[['juice','lemonade','green tea','mineral water'],['noodles','soup','spring roll'],['salt','pepper','flour'],['omelette','pancake','pie','butter'],['beef','pork']];
+const PIC=`beef|🐄|Meat from this animal is called ___.
+pork|🐖|Meat from this animal is called ___.
+butter|🧈|What is this?
+juice|🧃|What is this drink?
+lemonade|🍋🥤|What is this drink?
+noodles|🍜|What is this?
+omelette|🍳|What is this egg dish?
+onion|🧅|What is this?
+pancake|🥞|What is this?
+pie|🥧|What is this?
+soup|🥣|What is this?
+shrimp|🦐|What is this?
+salt|🧂|What is this?
+green tea|🍵|What is this drink?
+dish|🍽️|Món ăn trên đĩa trong tiếng Anh là gì?
+recipe|📖|Quyển sách hướng dẫn nấu ăn này có phần ___.
+mineral water|💧🧴|Nước đóng chai này là gì?
+spring roll|🌯|Món Việt Nam: chả giò / nem cuốn
+pepper|🌶️|Gia vị cay này là gì?
+flour|🌾|Bột làm bánh từ lúa mì là gì?`.split('\n').map(l=>{const[w,e,q]=l.split('|');return{w,e,q}});
+const R2W=['roast','spring roll','sauce','eel','tablespoon','teaspoon','ingredient','fried','dish','recipe','pepper','flour','butter','onion','pie','omelette','pancake','noodles','soup','shrimp'];
+const ROUNDS=['Picture Quiz','Vocabulary Challenge','Fill in the Blanks','Food and Cooking Grammar','Master Chef Final Challenge'];
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+function M(r,q,c,w,e,x){return Object.assign({round:r,type:'mcq',q,correct:c,wrong:w.split('|'),exp:e},x||{})}
+function F(s,a,w,h){return M(3,s,a,w,`Đáp án: "${a}" = ${VI[a]}. ${h}`)}
+function MT(items){ // matching 3 words with meanings
+  const L='abc',perm=[1,2,0],vi=items.map(i=>VI[i]);
+  const shown=perm.map(k=>vi[k]); // letters a,b,c show shuffled meanings
+  const fmt=m=>m.map((x,i)=>`${i+1}-${L[x]}`).join(', ');
+  const right=items.map((_,i)=>perm.indexOf(i));
+  const perms=[[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]].map(p=>fmt(p));
+  const c=fmt(right);const wr=perms.filter(p=>p!==c).slice(0,3);
+  return M(5,`Ghép từ với nghĩa:\n${items.map((w,i)=>`${i+1}. ${w}`).join('   ')}\n${shown.map((m,i)=>`${L[i]}. ${m}`).join('   ')}`,c,wr.join('|'),`Đáp án: ${items.map((w,i)=>`${w} = ${vi[i]}`).join('; ')}.`);
+}
+function O(s,hint){return{round:5,type:'order',q:'Sắp xếp các từ thành câu hoàn chỉnh:',correct:s,words:s.split(' '),exp:`Câu đúng: "${s}". ${hint}`}}
+const P1='Mai wants to make pancakes. She needs flour, an egg, milk and a little salt. She mixes the ingredients and cooks the pancakes in a pan.';
+
+function buildAll(){
+ const Q=[];
+ PIC.forEach(p=>{const bad=shuffle(PIC.map(x=>x.w).filter(w=>w!==p.w&&!CONF.some(g=>g.includes(w)&&g.includes(p.w)))).slice(0,3);
+  Q.push({round:1,type:'mcq',q:p.q,img:p.e,correct:p.w,wrong:bad,exp:`${p.w} = ${VI[p.w]}.`});});
+ R2W.forEach((w,i)=>{const bad=shuffle(Object.keys(CAT).filter(x=>x!==w&&CAT[x]===CAT[w])).slice(0,3);
+  const ex=VOC.find(v=>v.en===w).ex;
+  if(i%2===0)Q.push({round:2,type:'mcq',q:`Nghĩa của "${w}" là gì?`,correct:VI[w],wrong:bad.map(x=>VI[x]),exp:`${w} = ${VI[w]}. Ví dụ: ${ex}`});
+  else Q.push({round:2,type:'mcq',q:`Từ tiếng Anh nào có nghĩa là "${VI[w]}"?`,correct:w,wrong:bad,exp:`${VI[w]} = ${w}. Ví dụ: ${ex}`});});
+ Q.push(
+ F('We mix eggs, milk and ___ to make pancakes.','flour','shrimp|juice|eel','Bánh kếp làm từ bột mì, trứng và sữa.'),
+ F('My mother adds a little ___ to the soup to make it salty.','salt','juice|pie|eel','"salty" (mặn) → salt.'),
+ F('A glass of ___ is sour and sweet because it has lemons and sugar.','lemonade','pork|flour|eel','Lemon → lemonade.'),
+ F('She is cooking an ___ with three eggs.','omelette','pancake|pie|noodles','Trước "an" là từ bắt đầu bằng nguyên âm; omelette làm từ trứng.'),
+ F('Spring rolls are ___ in hot oil.','fried','roast|onion|juice','Chiên trong dầu nóng = fried.'),
+ F('Use a small ___ to put sugar in your cup of coffee.','teaspoon','tablespoon|pie|eel','Thìa nhỏ = teaspoon; tablespoon là thìa lớn.'),
+ F('Cut the ___ carefully. It can make your eyes water.','onion','pie|juice|butter','Hành tây làm cay mắt.'),
+ F('Japanese people often drink hot ___ made from green leaves.','green tea','lemonade|juice|mineral water','Trà làm từ lá = green tea.'),
+ F('We drink fresh orange ___ every morning.','juice','soup|pie|shrimp','Orange juice = nước cam ép.'),
+ F('This hot ___ has carrots and chicken. We eat it with a spoon.','soup','pie|pancake|omelette','Ăn bằng thìa, nóng, có nước → soup.'),
+ F('An ___ is a long fish like a snake.','eel','shrimp|pork|noodles','Eel = con lươn.'),
+ F('Flour is one ___ of this cake.','ingredient','dish|recipe|sauce','Ingredient = nguyên liệu (thành phần).'),
+ F('Please follow the ___ step by step to cook this dish.','recipe','onion|eel|pie','Recipe = công thức hướng dẫn nấu ăn.'),
+ F('Pho is a famous Vietnamese ___.','dish','flour|salt|tablespoon','Phở là một món ăn (dish).'),
+ F('Pork comes from a pig, and ___ comes from a cow.','beef','eel|shrimp|onion','Beef = thịt bò.'),
+ F('I spread ___ on my bread in the morning.','butter','juice|soup|eel','Phết lên bánh mì → butter.'),
+ F('Please put some tomato ___ on my pasta.','sauce','flour|pie|teaspoon','Tomato sauce = sốt cà chua.'),
+ F('Minh buys a bottle of ___. It has no colour, no sugar and no taste.','mineral water','lemonade|juice|green tea','Nước không màu, không đường = mineral water.'),
+ F('We eat ___ in a bowl with chopsticks.','noodles','pie|butter|flour','Ăn bằng đũa trong bát → noodles.'),
+ F('Black ___ makes the soup a little hot and spicy.','pepper','butter|flour|juice','Tiêu làm món ăn cay.'));
+ // Round 4
+ Q.push(
+ M(4,'Which meat comes from a cow?','beef','pork|eel|shrimp','Beef = thịt bò (từ con bò); pork = thịt heo.'),
+ M(4,"Mai's family eats ___ with rice. It is meat from a pig.",'pork','beef|onion|flour','Pork = thịt heo.'),
+ M(4,'Orange ___ is made by squeezing oranges.','juice','lemonade|soup|salt','Juice = nước ép; lemonade làm từ chanh.'),
+ M(4,'Choose the correct sentence.','Lemonade is a sweet and sour drink made from lemons.','Lemonade is a kind of meat from a pig.|Lemonade is a spoon we use to cook.|Lemonade is a long fish like a snake.','Lemonade = nước chanh, một loại đồ uống.'),
+ M(4,'Choose the correct sentence.','A tablespoon is bigger than a teaspoon.','A teaspoon is bigger than a tablespoon.|A teaspoon is a kind of meat.|A tablespoon is a kind of sauce.','Tablespoon (thìa canh) lớn hơn teaspoon (thìa cà phê).'),
+ M(4,'Choose the correct sentence.','Roast chicken is cooked in the oven.','Fried chicken is cooked in the oven without oil.|Roast chicken is a cold drink.|Roast chicken is cooked in a glass of juice.','Roast = quay/nướng trong lò; fried = chiên trong dầu.'),
+ M(4,'I want my soup a little spicy. Please pass me the ___.','pepper','salt|butter|flour','Pepper (tiêu) làm món cay; salt làm món mặn.'),
+ M(4,'Dad cooks a big pot of ___ with pork bones and vegetables.','soup','pie|butter|pepper','Nấu trong nồi với nước → soup.'),
+ M(4,'Complete: A spring roll is a ___, and pork is an ___ in it.','dish – ingredient','ingredient – dish|recipe – dish|dish – recipe','Dish = món ăn hoàn chỉnh; ingredient = nguyên liệu để làm món đó.'),
+ M(4,'Waiter: What would you like?\nYou: I\'d like ___, please.','a bowl of noodles','a recipe of noodles|an eel of noodles|a tablespoon noodles','Gọi món: "a bowl of + món ăn".'),
+ M(4,'Customer: I\'d like half a kilo of ___, please.','shrimp','dish|recipe|teaspoon','Mua thực phẩm theo cân → shrimp (tôm).'),
+ M(4,'Which one is NOT a kind of meat or seafood?','juice','beef|pork|eel','Juice là đồ uống; beef, pork, eel là thịt hoặc hải sản.'),
+ M(4,'Which one is a drink?','green tea','pancake|pie|omelette','Green tea = trà xanh, là đồ uống.'),
+ M(4,'Mum is reading the ___ to learn how to cook this dish.','recipe','onion|shrimp|juice','Đọc để học cách nấu → recipe.'),
+ M(4,'Choose the correct sentence.','She is making an omelette.','She is making a omelette.|She is making an pancake.|She is make an omelette.','Dùng "an" trước omelette (nguyên âm) và "is making" (hiện tại tiếp diễn).'),
+ M(4,'How do people usually cook spring rolls?','They fry them in hot oil.','They drink them with a straw.|They mix them with lemonade.|They cut them with a teaspoon.','Chả giò thường được chiên (fry) trong dầu nóng.'),
+ M(4,'A: Would you like some green tea?\nB: ___','Yes, please. I like it hot.','Yes, I am green tea.|No, it is a recipe, thanks.|Yes, it is an onion.','Trả lời lời mời đồ uống: "Yes, please."'),
+ M(4,'Which spoon do we use to stir a small cup of coffee?','teaspoon','tablespoon|dish|recipe','Cốc nhỏ → thìa nhỏ (teaspoon).'),
+ M(4,'Which dish is baked in an oven and often has fruit or meat inside?','pie','soup|noodles|juice','Pie = bánh nướng có nhân.'),
+ M(4,'Which vegetable can make you cry when you cut it?','onion','pie|shrimp|butter','Onion = hành tây.'));
+ // Round 5
+ Q.push(
+ M(5,'Đoán từ: "It is long and thin and looks like a snake. It lives in water and people can cook it."','eel','shrimp|pork|noodles','Eel = con lươn.'),
+ M(5,'Đoán từ: "It is white or yellow. It comes from milk. We spread it on bread."','butter','flour|sauce|salt','Butter = bơ.'),
+ M(5,'Đoán từ: "It is a small pink animal from the sea. People often fry it."','shrimp','beef|pie|onion','Shrimp = tôm.'),
+ M(5,'Đoán từ: "It tells us the steps to cook a dish."','recipe','dish|sauce|ingredient','Recipe = công thức nấu ăn.'),
+ M(5,'Which ingredients do we need to make an omelette?','Eggs, a little salt and butter','Beef, flour and lemonade|Noodles, juice and pork|Shrimp, pie and green tea','Omelette làm từ trứng, thêm muối và bơ.'),
+ M(5,'Which ingredients do we need to make lemonade?','Lemons, water and sugar','Lemons, beef and flour|Eels, pepper and butter|Noodles, salt and pork','Lemonade = chanh + nước + đường.'),
+ M(5,'Which ingredients do we need for tomato soup?','Tomatoes, onion, water and salt','Tomatoes, juice and a pie|Beef, lemonade and flour|Eel, butter and tea','Soup cà chua cần cà chua, hành, nước và muối.'),
+ O('I add a teaspoon of salt to the soup.','Teaspoon = thìa nhỏ; salt = muối.'),
+ O('My mother is making an omelette.','Hiện tại tiếp diễn: is + making; an trước omelette.'),
+ O('Roast chicken is my favourite dish.','Roast chicken = gà quay; dish = món ăn.'),
+ O('Spring rolls are fried in hot oil.','Bị động: are + fried.'),
+ MT(['spring roll','pork','pepper']),
+ MT(['eel','teaspoon','tablespoon']),
+ MT(['dish','ingredient','recipe']),
+ M(5,`${P1}\n\nWhat does Mai need to make pancakes?`,'Flour, an egg, milk and a little salt','Beef, eel, butter and juice|Noodles, onion, pork and sauce|Rice, shrimp, pepper and tea','Đoạn văn: "flour, an egg, milk and a little salt".',{passage:P1}),
+ M(5,'Where does Mai cook the pancakes?','In a pan','In an oven|In a glass|In a bowl of soup','Đoạn văn: "cooks the pancakes in a pan".',{passage:P1}),
+ M(5,'What does Mai do with the ingredients?','She mixes them.','She drinks them.|She sells them.|She roasts them in an oven.','Đoạn văn: "She mixes the ingredients".',{passage:P1}),
+ M(5,'Which sentence has a mistake?','She is making a omelette.','My father cooks beef with onion.|I put a teaspoon of sugar in my tea.|We drink a glass of mineral water.','Phải dùng "an omelette".'),
+ M(5,'Which sentence has a mistake?','Pork comes from a cow.','Lemonade is a sweet and sour drink.|A recipe tells us how to cook a dish.|Butter is made from milk.','Pork từ con heo; thịt bò mới là beef (từ con bò).'),
+ M(5,'Complete the recipe: "Mix flour, eggs and milk. The pancake is ___ in a pan."','fried','roast|juice|sauce','Chiên trong chảo = fried.'));
+ Q.forEach((q,i)=>{q.id=i+1;q.pts=10});
+ return Q;
+}
+function validate(Q){
+ const err=[];if(Q.length!==100)err.push('Tổng số câu = '+Q.length+' (cần 100)');
+ const seen=new Set();
+ Q.forEach(q=>{const t='Câu '+q.id;
+  if(!q.q||!q.exp)err.push(t+': thiếu nội dung/giải thích');
+  const k=q.round+'|'+q.q+'|'+q.correct;if(seen.has(k))err.push(t+': trùng câu hỏi');seen.add(k);
+  if(q.type==='mcq'){const all=[q.correct,...q.wrong];
+   if(q.wrong.length!==3||new Set(all).size!==4||all.some(x=>!x))err.push(t+': đáp án không hợp lệ');}
+  else if(q.type==='order'){if(!q.words||q.words.length<4)err.push(t+': thiếu từ');}
+  else err.push(t+': sai dạng');});
+ for(let r=1;r<=5;r++)if(Q.filter(q=>q.round===r).length!==20)err.push('Vòng '+r+' không đủ 20 câu');
+ const txt=JSON.stringify(Q).toLowerCase();
+ VOC.forEach(v=>{if(!txt.includes(v.en))err.push('Thiếu từ vựng: '+v.en)});
+ return err;
+}
+//DATA-END
+
+let G={done:false,list:[],i:0,score:0,ok:0,hist:[],locked:true,sec:0,left:0,tid:null,t0:0,sound:true};
+const $=id=>document.getElementById(id);
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');window.scrollTo(0,0)}
+function toggleSound(){G.sound=!G.sound;$('sndBtn').textContent='🔊 Âm thanh: '+(G.sound?'BẬT':'TẮT');$('sndBtn2').textContent=G.sound?'🔊':'🔇'}
+function toggleFS(){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}}
+let AC;function beep(ok){if(!G.sound)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+ (ok?[523,659,784]:[220,165]).forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;o.type=ok?'triangle':'sawtooth';
+ g.gain.value=.12;o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+i*.12);o.stop(AC.currentTime+i*.12+.12)})}catch(e){}}
+
+function startGame(){
+ clearInterval(G.tid);
+ let Q;try{Q=buildAll();const e=validate(Q);if(e.length){$('errBox').textContent='Lỗi dữ liệu: '+e.join('; ');return}}catch(x){$('errBox').textContent='Lỗi: '+x.message;return}
+ const list=[];for(let r=1;r<=5;r++)list.push(...shuffle(Q.filter(q=>q.round===r)));
+ list.forEach(q=>{q.opts=q.type==='mcq'?shuffle([q.correct,...q.wrong]):null});
+ G={...G,done:false,list,i:0,score:0,ok:0,hist:[],locked:false,sec:+$('timerSel').value,t0:Date.now()};
+ show('game');render();
+}
+function render(){
+ const q=G.list[G.i];G.locked=false;
+ $('rtag').textContent=`Vòng ${q.round}/5: ${ROUNDS[q.round-1]} – Câu ${(G.i%20)+1}/20`;
+ $('sc').textContent=G.score;$('okn').textContent=G.ok;$('left').textContent=100-G.i;
+ $('pb').style.width=(G.i/100*100)+'%';
+ $('fb').className='fb';$('nextBtn').style.display='none';
+ let h='';if(q.img)h+=`<div class="img">${q.img}</div>`;
+ if(q.passage)h+=`<div class="passage">📖 ${q.passage}</div>`;
+ h+=`<div class="q">${(q.passage?q.q.replace(q.passage+'\n\n',''):q.q).replace(/</g,'&lt;')}</div>`;
+ if(q.type==='mcq')h+='<div class="opts">'+q.opts.map((o,k)=>`<button class="opt" data-k="${k}" onclick="pick(${k})"><b>${'ABCD'[k]}</b>${o}</button>`).join('')+'</div>';
+ else{G.pick=[];G.bank=shuffle(q.words.map((w,k)=>k));let t=0;while(G.bank.map(k=>q.words[k]).join(' ')===q.correct&&t++<9)G.bank=shuffle(G.bank);
+  h+='<div class="ans" id="ans"></div><div class="bank" id="bank"></div><div class="row"><button class="ghost" onclick="clearOrder()">XÓA</button><button class="big" onclick="checkOrder()">KIỂM TRA</button></div>';}
+ const box=$('qbox');box.className='';void box.offsetWidth;box.className='slide';box.innerHTML=h;
+ if(q.type==='order')drawOrder();
+ startTimer();
+}
+function drawOrder(){const q=G.list[G.i];
+ $('ans').innerHTML=G.pick.map(k=>`<button class="w" onclick="unpick(${k})">${q.words[k]}</button>`).join('');
+ $('bank').innerHTML=G.bank.filter(k=>!G.pick.includes(k)).map(k=>`<button class="w" onclick="addw(${k})">${q.words[k]}</button>`).join('');}
+function addw(k){if(G.locked)return;G.pick.push(k);drawOrder()}
+function unpick(k){if(G.locked)return;G.pick=G.pick.filter(x=>x!==k);drawOrder()}
+function clearOrder(){if(G.locked)return;G.pick=[];drawOrder()}
+function checkOrder(){if(G.locked)return;const q=G.list[G.i];if(G.pick.length<q.words.length){alert('Hãy dùng hết tất cả các từ!');return}
+ const s=G.pick.map(k=>q.words[k]).join(' ');finish(s===q.correct,s)}
+function pick(k){if(G.locked)return;finish(G.list[G.i].opts[k]===G.list[G.i].correct,G.list[G.i].opts[k],k)}
+function startTimer(){clearInterval(G.tid);const el=$('tm');
+ if(!G.sec){el.style.display='none';return}
+ G.left=G.sec;el.style.display='';el.textContent='⏱ '+G.left;
+ G.tid=setInterval(()=>{G.left--;el.textContent='⏱ '+G.left;if(G.left<=0){clearInterval(G.tid);if(!G.locked)finish(false,null,-1,true)}},1000)}
+function finish(ok,chosen,k,timeout){
+ const q=G.list[G.i];G.locked=true;clearInterval(G.tid);
+ if(ok){G.score+=q.pts;G.ok++}
+ G.hist.push({q,ok,chosen:timeout?'(hết giờ)':chosen});
+ if(q.type==='mcq')document.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;if(q.opts[j]===q.correct)b.classList.add('ok');else if(j===k)b.classList.add('bad')});
+ else{document.querySelectorAll('.w').forEach(b=>b.disabled=true)}
+ const fb=$('fb');fb.className='fb '+(ok?'ok':'bad');
+ fb.innerHTML=(timeout?'⏰ Hết giờ! ':ok?'🎉 Chính xác! +10 điểm. ':'❌ Chưa đúng. ')+(ok?'':`<br>Đáp án đúng: <b>${q.correct}</b>`)+'<br>💡 '+q.exp;
+ $('sc').textContent=G.score;$('okn').textContent=G.ok;$('left').textContent=99-G.i;
+ $('pb').style.width=((G.i+1)/100*100)+'%';beep(ok);
+ const nb=$('nextBtn');nb.textContent=G.i===99?'SEE RESULTS 🏆':'NEXT QUESTION ➜';nb.style.display='';
+}
+function next(){if(!G.locked)return;if(G.i>=99){end();return}G.i++;render()}
+function end(){
+ G.done=true;clearInterval(G.tid);const n=G.ok,sc=G.score;
+ const [rk,msg]=sc>=900?['MASTER CHEF – Excellent!','Tuyệt vời! Em đã nắm vững từ vựng về thức ăn và nấu ăn.']:sc>=750?['SUPER CHEF – Great job!','Làm tốt lắm! Chỉ cần ôn thêm vài từ nữa là hoàn hảo.']:sc>=500?['JUNIOR CHEF – Good effort!','Cố gắng tốt! Hãy xem lại các câu sai và ôn từ vựng.']:['KEEP PRACTISING!','Đừng nản! Hãy ôn lại từ vựng và chơi lại nhé.'];
+ $('rank').textContent=rk;$('rmsg').textContent=msg;
+ const secs=Math.round((Date.now()-G.t0)/1000);
+ $('stats').innerHTML=`<div><span>100</span>Tổng số câu</div><div><span>${n}</span>Câu đúng</div><div><span>${100-n}</span>Câu sai</div><div><span>${n}%</span>Tỷ lệ đúng</div><div><span>${sc}/1000</span>Tổng điểm</div>`+(G.sec?`<div><span>${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}</span>Thời gian</div>`:'');
+ $('rounds').innerHTML='<tr><th>Vòng</th><th>Đúng</th></tr>'+ROUNDS.map((r,i)=>`<tr><td>Vòng ${i+1}: ${r}</td><td><b>${G.hist.filter(h=>h.q.round===i+1&&h.ok).length}/20</b></td></tr>`).join('');
+ show('result');if(sc>=750)confetti();
+}
+function confetti(){const e=['🎉','⭐','🍳','🥞','🍜','🥧','🍰','✨'];for(let i=0;i<50;i++){const s=document.createElement('span');s.className='fall';s.textContent=e[i%e.length];
+ s.style.left=Math.random()*100+'vw';s.style.animationDuration=(2+Math.random()*3)+'s';s.style.animationDelay=Math.random()*1.5+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),6000)}}
+function showMistakes(){const w=G.hist.filter(h=>!h.ok);$('rvTitle').textContent='REVIEW MISTAKES ('+w.length+' câu)';
+ $('rvBody').innerHTML=w.length?w.map(h=>`<div class="rv"><b>Câu ${h.q.id} (Vòng ${h.q.round}):</b> ${h.q.q.replace(/</g,'&lt;').replace(/\n/g,'<br>')}<br>❌ Em chọn: ${h.chosen}<br>✅ Đáp án: <b>${h.q.correct}</b><br>💡 ${h.q.exp}</div>`).join(''):'<p class="center">🎉 Không có câu sai nào!</p>';show('review')}
+function showVocab(){$('rvTitle').textContent='REVIEW VOCABULARY (27 từ)';
+ $('rvBody').innerHTML='<div class="vg">'+VOC.map(v=>`<div class="vc"><b style="font-size:1.2em">${v.en}</b> <i>(${v.t})</i><br>${v.vi}<br><small>📝 ${v.ex}</small></div>`).join('')+'</div>';show('review')}
+</script>
+</body>
+</html>
